@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, include 
 
 urlpatterns = [
     path('', include('admin_app.urls')),
     path('', include('publicacion_app.urls')),
-    path('', include('usuario.urls')),
+    path('', include('usuario_app.urls')),
     
 ]
