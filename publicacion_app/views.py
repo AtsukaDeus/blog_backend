@@ -18,3 +18,21 @@ def crear_publicacion(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['POST'])
+def eliminar_publicacion(request):
+    try:
+        publicacion_id = request.data.get('id')
+        if publicacion_id is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        publicacion = Publicacion.objects.get(pk=publicacion_id)
+        publicacion.delete()
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+    except Publicacion.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
