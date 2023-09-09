@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'admin_app',
     'publicacion_app',
     'usuario_app',
     'rest_framework'
@@ -61,7 +62,7 @@ WSGI_APPLICATION = 'back_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'web_blog',
+        'NAME': 'db_web_blog',
         'USER': 'postgres',
         'PASSWORD': '2543424356786754354256',
         'HOST': 'localhost',
