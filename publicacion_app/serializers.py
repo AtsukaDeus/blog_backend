@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Publicacion
 
 class PublicacionSerializer(serializers.ModelSerializer):
+    autor_publicacion = serializers.CharField(source='usuario.username', read_only=True)
+    
     class Meta:
         model = Publicacion
-        fields = '__all__'
+        fields = ('id', 'autor_publicacion', 'usuario', 'asunto', 'comentario', 'likes')

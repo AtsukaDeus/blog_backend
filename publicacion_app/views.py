@@ -11,15 +11,14 @@ from .serializers import PublicacionSerializer
 @api_view(['POST'])
 @permission_classes([IsAuthenticated]) 
 def crear_publicacion(request):
-    if request.method == 'POST':
-        data = request.data
-        serializer = PublicacionSerializer(data=data)
-        
-        if serializer.is_valid():
-            serializer.save(usuario=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    data = request.data
+    serializer = PublicacionSerializer(data=data)
+    
+    if serializer.is_valid():
+        serializer.save(usuario=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -53,6 +52,7 @@ def obtener_publicaciones(request):
     publicaciones = Publicacion.objects.all()
     serializer = PublicacionSerializer(publicaciones, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST'])
