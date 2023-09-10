@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, password_validation
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,16 +10,23 @@ from .serializers import UserSerializer
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def registrar_usuario(request):
-
     username = request.data.get('username', None)
     if User.objects.filter(username=username).exists():
         return Response({'error': 'El nombre de usuario ya existe.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    password = request.data.get('password')
+
+    try:
+        password_validation.validate_password(password)
+        
+    except password_validation.ValidationError as errors:
+        return Response({'error': errors}, status=status.HTTP_400_BAD_REQUEST) #<- muestra los errores de la contraseña
+
+    user = User.objects.create(username=username)
+    user.set_password(password) #cifrando password con set_password
+    user.save()
+
+    return Response({'mensaje': 'Usuario creado exitosamente'}, status=status.HTTP_201_CREATED)
 
 
 
@@ -27,9 +34,10 @@ def registrar_usuario(request):
 @permission_classes([AllowAny])
 def iniciar_sesion(request):
 
-    username = request.data.get('username', '')
-    password = request.data.get('password', '')
+    username = request.data.get('username')
+    password = request.data.get('password')
 
+    print(f'Intento de inicio de sesión: username={username}, password={password}')
     usuario = authenticate(request, username=username, password=password)
 
     if usuario is not None:
