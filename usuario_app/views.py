@@ -37,12 +37,16 @@ def iniciar_sesion(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
-    print(f'Intento de inicio de sesión: username={username}, password={password}')
     usuario = authenticate(request, username=username, password=password)
 
     if usuario is not None:
         login(request, usuario)
-        return Response({'mensaje': 'Inicio de sesión exitoso'}, status=status.HTTP_200_OK)
+        return Response(
+            {
+                'mensaje': 'Inicio de sesión exitoso',
+                'id_username': str(usuario.id)
+            }
+            , status=status.HTTP_200_OK)
     
     else:
         return Response({'error': 'Credenciales incorrectas'}, status=status.HTTP_401_UNAUTHORIZED)
