@@ -6,4 +6,4 @@ class PublicacionSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Publicacion
-        fields = ('id', 'autor_publicacion', 'usuario', 'asunto', 'comentario', 'likes')
+        fields = ('id', 'autor_publicacion', 'asunto', 'comentario', 'likes')

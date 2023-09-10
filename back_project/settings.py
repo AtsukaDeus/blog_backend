@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'admin_app',
     'publicacion_app',
     'usuario_app',
+    'comentario_app',
     'rest_framework'
 ]
 

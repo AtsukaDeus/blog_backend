@@ -12,6 +12,7 @@ from .serializers import PublicacionSerializer
 @permission_classes([IsAuthenticated]) 
 def crear_publicacion(request):
     data = request.data
+    data['usuario'] = request.user.id
     serializer = PublicacionSerializer(data=data)
     
     if serializer.is_valid():

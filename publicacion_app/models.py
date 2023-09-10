@@ -5,7 +5,7 @@ class Publicacion(models.Model):
     asunto = models.CharField(max_length=255)
     comentario = models.TextField()
     likes = models.IntegerField(default=0)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.asunto
