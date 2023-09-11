@@ -58,7 +58,7 @@ def obtener_publicaciones(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated]) 
-def like(request):
+def like_publicacion(request):
     try:
         publicacion_id = request.data.get('id')
         if publicacion_id is None:
@@ -82,7 +82,7 @@ def like(request):
     
 @api_view(['POST'])
 @permission_classes([IsAuthenticated]) 
-def dislike(request):
+def dislike_publicacion(request):
     try:
         publicacion_id = request.data.get('id')
         if publicacion_id is None:
