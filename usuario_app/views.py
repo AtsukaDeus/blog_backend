@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import UserSerializer
+from rest_framework.authtoken.models import Token
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -40,8 +41,9 @@ def iniciar_sesion(request):
     usuario = authenticate(request, username=username, password=password)
 
     if usuario is not None:
-        login(request, usuario)
-        return Response({'mensaje': 'Inicio de sesión exitoso'}, status=status.HTTP_200_OK)
+        # Autenticación exitosa, ahora vamos a generar un token para el usuario
+        token, created = Token.objects.get_or_create(user=usuario)
+        return Response({'token': token.key, 'mensaje': 'Inicio de sesión exitoso'}, status=status.HTTP_200_OK)
     
     else:
         return Response({'error': 'Credenciales incorrectas'}, status=status.HTTP_401_UNAUTHORIZED)
